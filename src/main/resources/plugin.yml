@@ -2,7 +2,7 @@ name: Bettercolor
 version: '${project.version}'
 main: com.bettercolor.chat.bettercolor.Bettercolor
 api-version: 1.16
-depend: []
+depend: [ChatControlRed]
 authors: [ rickSanchez ]
 description: Plugin que colorea con degradados
 commands:

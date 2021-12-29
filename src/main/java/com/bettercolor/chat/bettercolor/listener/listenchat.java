@@ -18,14 +18,11 @@ public class listenchat implements Listener {
         Player player = e.getPlayer();
         if (player.hasPermission("chatcontrol.command.color")) {
             PersistentDataContainer data = player.getPersistentDataContainer();
-            String G1 = data.get(new NamespacedKey(NamespacedKey.MINECRAFT, "gradient1"), PersistentDataType.STRING);
-            String G2 = data.get(new NamespacedKey(NamespacedKey.MINECRAFT, "gradient2"), PersistentDataType.STRING);
             String message = e.getMessage();
-            UUID uuid = player.getUniqueId();
-            /** Check default colour.
-             if ((boolean) configUtils.getSetting("default-color-enabled")) {
-             generalUtils.checkDefault(uuid);
-             }**/
+
+
+
+
 
             // If their message contains &, check they have permissions for it, or strip the colour.
             if (!player.hasPermission("chatcolor.use-color-codes")) {
@@ -36,7 +33,20 @@ public class listenchat implements Listener {
                 }
             }
             if (!ChatControlAPI.getPlayerCache(player).hasChatColor() && !ChatControlAPI.getPlayerCache(player).hasChatDecoration()) {
-                e.setMessage(ColoutMyText.ColourMyText(message, G1, G2));
+                String G1 = data.get(new NamespacedKey(NamespacedKey.MINECRAFT, "gradient1"), PersistentDataType.STRING);
+                String G2 = data.get(new NamespacedKey(NamespacedKey.MINECRAFT, "gradient2"), PersistentDataType.STRING);
+                try{
+                    String G3 = data.get(new NamespacedKey(NamespacedKey.MINECRAFT, "decoration"), PersistentDataType.STRING);
+                    if (G3 == ""){
+                        e.setMessage(ColoutMyText.ColourMyText(message, G1, G2,null));
+                    }else{
+                    e.setMessage(ColoutMyText.ColourMyText(message, G1, G2,G3));}
+
+                }catch (NullPointerException error){
+
+                }
+
+
             }
         }
 
