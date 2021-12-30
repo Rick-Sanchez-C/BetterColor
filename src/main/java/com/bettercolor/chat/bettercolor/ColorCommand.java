@@ -52,6 +52,7 @@ public class ColorCommand implements CommandExecutor {
                             return true;
                         }
                     }else{
+
                         PersistentDataContainer data = player.getPersistentDataContainer();
                         data.set(new NamespacedKey(NamespacedKey.MINECRAFT, "decoration"), PersistentDataType.STRING, "");
                     }
@@ -70,8 +71,24 @@ public class ColorCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.of(Color.decode(G1)) + "Tu degradado empieza con el color " + G1);
                     player.sendMessage(ChatColor.of(Color.decode(G2)) + "Y termina con el color " + G2);
 
-                } else {
-                    player.sendMessage("§4§l Utiliza dos colores hexadecimales  §6§l/gradient #000000 #FFFFFF");
+                } else{
+                    try{
+                        String G1;
+                        String G2;
+                        ChatControlAPI.getPlayerCache(player).setChatColor((CompChatColor) null);
+
+                        ChatControlAPI.getPlayerCache(player).setChatDecoration((CompChatColor) null);
+                        ChatControlAPI.getPlayerCache(player).save();
+                        G1 = "#"+Integer.toHexString(CompChatColor.of(args[0]).getColor().getRGB()).substring(2);
+                        G2 = "#"+Integer.toHexString(CompChatColor.of(args[1]).getColor().getRGB()).substring(2);
+                        PersistentDataContainer data = player.getPersistentDataContainer();
+                        data.set(new NamespacedKey(NamespacedKey.MINECRAFT, "gradient1"), PersistentDataType.STRING, G1);
+                        data.set(new NamespacedKey(NamespacedKey.MINECRAFT, "gradient2"), PersistentDataType.STRING, G2);
+                        player.sendMessage(ChatColor.of(Color.decode(G1)) + "Tu degradado empieza con el color " + G1);
+                        player.sendMessage(ChatColor.of(Color.decode(G2)) + "Y termina con el color " + G2);
+                    }catch(IllegalArgumentException var10){
+                        player.sendMessage("§4§l Utiliza dos colores hexadecimales  §6§l/gradient #000000 #FFFFFF");
+                    }
                     return true;
                 }
 
